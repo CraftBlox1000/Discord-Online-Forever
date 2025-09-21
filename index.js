@@ -6,7 +6,9 @@ const bot = new Eris(process.env.token);
 // Timezone + stop time
 const TIMEZONE = "Europe/London"; 
 const STOP_HOUR = 1;   // 1AM London time
-const STOP_MINUTE = 0; // :00
+const STOP_MINUTE = Math.floor(Math.random() * 60); // random minute (0–59)
+
+console.log(`Bot will stop today at 01:${STOP_MINUTE.toString().padStart(2, "0")} London time`);
 
 bot.on("ready", () => {
   console.log(`Logged in as ${bot.user.username}`);
@@ -27,9 +29,9 @@ bot.on("ready", () => {
     console.log(`Current ${TIMEZONE} time: ${hour}:${minute}`);
 
     if (hour === STOP_HOUR && minute === STOP_MINUTE) {
-      console.log("Stop time reached. Disconnecting bot...");
+      console.log("Random stop time reached. Disconnecting bot...");
       bot.disconnect();
-      process.exit(0); // <- completely stops the program
+      process.exit(0);
     }
   }, 60 * 1000); // check once per minute
 });
@@ -52,4 +54,3 @@ bot.on("error", (err) => {
 });
 
 bot.connect();
-
